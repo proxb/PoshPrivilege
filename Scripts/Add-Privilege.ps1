@@ -1,4 +1,32 @@
 ﻿Function Add-Privilege {
+    <#
+        .SYNOPSIS
+            Adds a specified privilege for a user or group
+
+        .DESCRIPTION
+            Adds a specified privilege for a user or group. This will remain until
+            removed using Remove-Privilege or a policy is refreshed.
+
+        .PARAMETER AccountName            
+            The user or group which will have the privilege added for.
+        
+        .PARAMETER Privilege            
+            Specific privilege/s to add on the local machine
+        
+        .NOTES
+            Name: Add-Privilege
+            Author: Boe Prox
+            Version History:
+                1.0 - Initial Version        
+
+        .EXAMPLE
+        Add-Privilege -AccountName Domain\SomeUser -Privilege SeBackupPrivilege
+
+        Description
+        -----------
+        Adds the SeBackupPrivilege privilege for Domain\SomeUser
+        
+    #>
     [cmdletbinding()]
     Param (
         [parameter(Mandatory=$True)]

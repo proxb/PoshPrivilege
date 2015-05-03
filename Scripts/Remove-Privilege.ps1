@@ -1,4 +1,32 @@
 ﻿Function Remove-Privilege {
+    <#
+        .SYNOPSIS
+            Removes a specified privilege for a user or group
+
+        .DESCRIPTION
+            Removes a specified privilege for a user or group. This will remain until
+            re-added using Add-Privilege or a policy is refreshed.
+
+        .PARAMETER AccountName            
+            The user or group which will have the privilege removed.
+        
+        .PARAMETER Privilege            
+            Specific privilege/s to remove from the local machine
+        
+        .NOTES
+            Name: Remove-Privilege
+            Author: Boe Prox
+            Version History:
+                1.0 - Initial Version
+
+        .EXAMPLE
+        Remove-Privilege -AccountName Domain\SomeUser -Privilege SeBackupPrivilege
+
+        Description
+        -----------
+        Removes the SeBackupPrivilege privilege for Domain\SomeUser on the local machine
+        
+    #>
     [cmdletbinding()]
     Param (
         [parameter(Mandatory=$True)]

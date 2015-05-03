@@ -1,4 +1,92 @@
 ﻿Function Get-Privilege {
+    <#
+        .SYNOPSIS
+            Gets all privileges on a local or remote system.
+
+        .DESCRIPTION
+            Gets the currently applied privileges or current user privileges.
+        
+        .PARAMETER Privilege            
+            Specific privilege/s to view.
+
+        .PARAMETER Computername
+            View privileges on a remote system
+
+        .PARAMETER CurrentUser
+            View the currently applied privileges for the current user
+        
+        .NOTES
+            Name: Get-Privilege
+            Author: Boe Prox
+            Version History:
+                1.0 - Initial Version
+
+        .EXAMPLE
+            Get-Privilege
+
+            Computername         Privilege                        Accounts
+            ------------         ---------                        --------
+            BOE-PC               SeAssignPrimaryTokenPrivilege    {IIS APPPOOL\.NET v4.5 Cl...
+            BOE-PC               SeAuditPrivilege                 {IIS APPPOOL\.NET v4.5 Cl...
+            BOE-PC               SeBackupPrivilege                {BUILTIN\Backup Operators...
+            BOE-PC               SeBatchLogonRight                {BUILTIN\IIS_IUSRS, BUILT...
+            BOE-PC               SeChangeNotifyPrivilege          {Window Manager\Window Ma...
+            BOE-PC               SeCreateGlobalPrivilege          {NT AUTHORITY\SERVICE, BU...
+            BOE-PC               SeCreatePagefilePrivilege        {BUILTIN\Administrators}
+            BOE-PC               SeCreatePermanentPrivilege       {}
+            BOE-PC               SeCreateSymbolicLinkPrivilege    {BUILTIN\Administrators}
+            ...
+
+            Description
+            -----------
+            Enables the SeBackupPrivilege on the existing process
+
+        .EXAMPLE
+            Get-Privilege -CurrentUser
+
+            Privilege                        Description                              Enabled
+            ---------                        -----------                              -------
+            SeLockMemoryPrivilege            Lock pages in memory                     False
+            SeIncreaseQuotaPrivilege         Adjust memory quotas for a process       False
+            SeTcbPrivilege                   Act as part of the operating system      False
+            SeSecurityPrivilege              Manage auditing and security log         False
+            SeTakeOwnershipPrivilege         Take ownership of files or other objects False
+            SeLoadDriverPrivilege            Load and unload device drivers           False
+            SeSystemProfilePrivilege         Profile system performance               False
+            SeSystemtimePrivilege            Change the system time                   False
+            SeProfileSingleProcessPrivilege  Profile single process                   False
+            SeIncreaseBasePriorityPrivilege  Increase scheduling priority             False
+            SeCreatePagefilePrivilege        Create a pagefile                        False
+            SeBackupPrivilege                Back up files and directories            False
+            SeRestorePrivilege               Restore files and directories            False
+            SeShutdownPrivilege              Shut down the system                     False
+            SeDebugPrivilege                 Debug programs                           True
+            SeSystemEnvironmentPrivilege     Modify firmware environment values       False
+            SeChangeNotifyPrivilege          Bypass traverse checking                 True
+            SeRemoteShutdownPrivilege        Force shutdown from a remote system      False
+            SeUndockPrivilege                Remove computer from docking station     False
+            SeManageVolumePrivilege          Perform volume maintenance tasks         False
+            SeImpersonatePrivilege           Impersonate a client after authentica... True
+            SeCreateGlobalPrivilege          Create global objects                    True
+            SeIncreaseWorkingSetPrivilege    Increase a process working set           False
+            SeTimeZonePrivilege              Change the time zone                     False
+            SeCreateSymbolicLinkPrivilege    Create symbolic links                    False
+
+            Description
+            -----------
+            Displays currently applied privileges for current user.
+
+        .EXAMPLE
+            Get-Privilege -Privilege SeDebugPrivilege
+
+            Computername         Privilege                        Accounts
+            ------------         ---------                        --------
+            BOE-PC               SeDebugPrivilege                 {}
+
+        Description
+        -----------
+        Shows all accounts/groups that have been given SeDebugPrivilege
+    #>
     #REQUIRES -Version 3.0
     [OutputType('PSPrivilege.Privilege')]
     [cmdletbinding(

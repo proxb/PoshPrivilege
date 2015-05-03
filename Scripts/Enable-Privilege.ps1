@@ -14,9 +14,6 @@
             Author: Boe Prox
             Version History:
                 1.0 - Initial Version
-        
-        .LINK
-            http://msdn.microsoft.com/en-us/library/bb530716(VS.85).aspx
 
         .EXAMPLE
         Enable-Privilege -Privilege SeBackupPrivilege
