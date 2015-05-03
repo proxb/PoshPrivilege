@@ -1,2 +1,4 @@
-# PoshPrivilege
-Manage user privileges on a local machine or view applied privileges on local or remote system
+<<<<<<< HEAD
+PoshPrivilege (0.1.1.0)
+============
+PoshPrivilege provides a simple way to add/remove privileges to an account/group on a local machine as well as enabling or disabling existing privileges which are applied to a current user's process token. 
