@@ -86,9 +86,13 @@
         Description
         -----------
         Shows all accounts/groups that have been given SeDebugPrivilege
+
+        .OutputType
+            PSPrivilege.Privilege
+            PSPrivilege.CurrentUserPrivilege
     #>
     #REQUIRES -Version 3.0
-    [OutputType('PSPrivilege.Privilege')]
+    [OutputType('PSPrivilege.Privilege','PSPrivilege.CurrentUserPrivilege')]
     [cmdletbinding(
         DefaultParameterSetName = 'Default'
     )]
