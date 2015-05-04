@@ -102,10 +102,6 @@
     [void][PoshPrivilege]::LsaClose($PolicyHandle)
     #endregion Close Policy Handle
 
-    #region Free SID
-    [void][PoshPrivilege]::FreeSid($SID)
-    #endregion Free SID
-
     #region Clear Pointers
     [void][System.Runtime.InteropServices.Marshal]::FreeHGlobal($SID)
     #endregion Clear Pointers
