@@ -21,6 +21,13 @@
         Description
         -----------
         Enables the SeBackupPrivilege on the existing process
+
+        .EXAMPLE
+        Enable-Privilege -Privilege SeBackupPrivilege, SeRestorePrivilege, SeTakeOwnershipPrivilege
+
+        Description
+        -----------
+        Enables the SeBackupPrivilege,  SeRestorePrivilege and SeTakeOwnershipPrivilege on the existing process
         
     #>
     [cmdletbinding(
@@ -30,7 +37,7 @@
         [parameter(Mandatory = $True)]
         [Privileges[]]$Privilege
     )    
-    Begin {
+    If ($PSCmdlet.ShouldProcess("Process ID: $PID", "Enable Privilege(s): $($Privilege -join ', ')")) {
         #region Constants
         $SE_PRIVILEGE_ENABLED = 0x00000002
         $SE_PRIVILEGE_DISABLED = 0x00000000
@@ -53,8 +60,6 @@
             Write-Warning "Unable to open process token! Aborting!"
             Break
         }
-    }
-    Process {
         ForEach ($Priv in $Privilege) {
             $PrivValue = $Null
             $TokenPriv.Luid = 0
@@ -62,19 +67,17 @@
             $Return = [PoshPrivilege]::LookupPrivilegeValue($Null, $Priv, [ref]$PrivValue)             
             If ($Return) {
                 $TokenPriv.Luid = $PrivValue
-                #Adjust the process privilege value
-                If ($PSCmdlet.ShouldProcess("Process ID: $PID <$HandleToken>", "Enable Privilege <$Priv>")) {
-                    $return = [PoshPrivilege]::AdjustTokenPrivileges(
-                        $HandleToken, 
-                        $False, 
-                        [ref]$TokenPriv, 
-                        [System.Runtime.InteropServices.Marshal]::SizeOf($TokenPriv), 
-                        [IntPtr]::Zero, 
-                        [IntPtr]::Zero
-                    )
-                    If (-NOT $Return) {
-                        Write-Warning "Unable to enable privilege <$priv>! "
-                    }
+                #Adjust the process privilege value                
+                $return = [PoshPrivilege]::AdjustTokenPrivileges(
+                    $HandleToken, 
+                    $False, 
+                    [ref]$TokenPriv, 
+                    [System.Runtime.InteropServices.Marshal]::SizeOf($TokenPriv), 
+                    [IntPtr]::Zero, 
+                    [IntPtr]::Zero
+                )
+                If (-NOT $Return) {
+                    Write-Warning "Unable to enable privilege <$priv>! "
                 }
             }
         }
