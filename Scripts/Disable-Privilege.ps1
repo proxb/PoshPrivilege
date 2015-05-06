@@ -21,6 +21,13 @@
         Description
         -----------
         Disables the SeBackupPrivilege on the existing process
+
+        .EXAMPLE
+        Disable-Privilege -Privilege SeBackupPrivilege, SeRestorePrivilege, SeTakeOwnershipPrivilege
+
+        Description
+        -----------
+        Disables the SeBackupPrivilege,  SeRestorePrivilege and SeTakeOwnershipPrivilege on the existing process
         
     #>
     [cmdletbinding(
@@ -30,7 +37,7 @@
         [parameter(Mandatory = $True)]
         [Privileges[]]$Privilege
     )    
-    Begin {
+    If ($PSCmdlet.ShouldProcess("Process ID: $PID", "Disable Privilege(s): $($Privilege -join ', ')")) {
         #region Constants
         $SE_PRIVILEGE_ENABLED = 0x00000002
         $SE_PRIVILEGE_DISABLED = 0x00000000
@@ -39,7 +46,7 @@
         #endregion Constants
 
         $TokenPriv = New-Object TokPriv1Luid
-        $HandleToken = New-Object IntPtr
+        $HandleToken = [intptr]::Zero
         $TokenPriv.Count = 1
         $TokenPriv.Attr = $SE_PRIVILEGE_DISABLED
     
@@ -53,8 +60,6 @@
             Write-Warning "Unable to open process token! Aborting!"
             Break
         }
-    }
-    Process {
         ForEach ($Priv in $Privilege) {
             $PrivValue = $Null
             $TokenPriv.Luid = 0
@@ -63,18 +68,16 @@
             If ($Return) {
                 $TokenPriv.Luid = $PrivValue
                 #Adjust the process privilege value
-                If ($PSCmdlet.ShouldProcess("Process ID: $PID <$HandleToken>", "Disable Privilege <$Priv>")) {
-                    $return = [PoshPrivilege]::AdjustTokenPrivileges(
-                        $HandleToken, 
-                        $False, 
-                        [ref]$TokenPriv, 
-                        [System.Runtime.InteropServices.Marshal]::SizeOf($TokenPriv), 
-                        [IntPtr]::Zero, 
-                        [IntPtr]::Zero
-                    )
-                    If (-NOT $Return) {
-                        Write-Warning "Unable to disable privilege <$priv>! "
-                    }
+                $return = [PoshPrivilege]::AdjustTokenPrivileges(
+                    $HandleToken, 
+                    $False, 
+                    [ref]$TokenPriv, 
+                    [System.Runtime.InteropServices.Marshal]::SizeOf($TokenPriv), 
+                    [IntPtr]::Zero, 
+                    [IntPtr]::Zero
+                )
+                If (-NOT $Return) {
+                    Write-Warning "Unable to disable privilege <$priv>! "
                 }
             }
         }
