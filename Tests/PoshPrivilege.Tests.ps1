@@ -11,7 +11,7 @@ if($env:APPVEYOR_REPO_BRANCH -and $env:APPVEYOR_REPO_BRANCH -notlike "master" -o
     $Verbose.add("Verbose",$False)
 }
  
-Import-Module $PSScriptRoot\..\PoshRSJob\PoshRSJob -Verbose -Force -ErrorAction SilentlyContinue
+Import-Module $PSScriptRoot\..\PoshPrivilege\PoshPrivilege -Verbose -Force -ErrorAction SilentlyContinue
  
 Describe "PoshPrivilege PS$PSVersion" {
     Context 'Strict mode' {
