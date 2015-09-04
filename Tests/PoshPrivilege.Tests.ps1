@@ -11,11 +11,7 @@ if($env:APPVEYOR_REPO_BRANCH -and $env:APPVEYOR_REPO_BRANCH -notlike "master" -o
     $Verbose.add("Verbose",$False)
 }
  
-$PSVersion = $PSVersionTable.PSVersion.Major
-Switch ($PSVersion) {
-    4 {Import-Module $PSScriptRoot\..\PoshPrivilege\PoshPrivilege -Force -ErrorAction SilentlyContinue}
-    2 {Import-Module PoshPrivilege -Force -ErrorAction SilentlyContinue}
-}
+Import-Module $PSScriptRoot\..\PoshRSJob\PoshRSJob -Verbose -Force -ErrorAction SilentlyContinue
  
 Describe "PoshPrivilege PS$PSVersion" {
     Context 'Strict mode' {
