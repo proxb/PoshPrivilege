@@ -1,0 +1,46 @@
+﻿TOPIC
+    about_PoshPrivilege
+
+SHORT DESCRIPTION
+
+    PoshPrivilege provides a simple way to add/remove privileges to an account/group on a 
+    local machine as well as enabling or disabling existing privileges which are applied 
+    to a current user's process token. 
+
+LONG DESCRIPTION
+
+    PoshPrivilege provides a simple way to add/remove privileges to an account/group on a 
+    local machine as well as enabling or disabling existing privileges which are applied 
+    to a current user's process token. 
+
+    You can also view the privileges which have been applied to users/groups via policy
+    or find out what the current user's available privileges are.
+
+    Enable/Disable Privileges
+    =========================
+    You can only enable or disable privileges where they are currently available on the current
+    process. This means that when you run Get-Privilege -CurrentUser, only the privileges that 
+    show up are the privileges that can be enabled or disabled.
+
+    For instance, if SeDebugPrivilege is not available to enable/disable, when you run Enable-Privilege
+    to enable and make use of this privilege, nothing will happen as it is not actively available. Same 
+    goes for Disable-Privilege. If you want to use a particular privilege that is not available, then you
+    must use the Add-Privilege function instead.
+
+    Add/Remove Privileges
+    =====================
+    If there are privileges missing from your current process or you want to ensure another group has access
+    to a privilege, you must use Add/Remove-Privilege to add or remove a privilege to a specific account or group.
+    It is important to note that if a Group Policy Object (GPO) is applying restrictions to the user rights assignments,
+    any change that you make to add or remove a privilege could potentially be overwritten once the policy refreshes.
+
+    When you add a privilege using Add-Privilege, it is automatically enabled for use. It will not appear when you use 
+    Get-Privilege -CurrentUser until you open up a new process and run the command again.
+
+POWERSHELL COMPATIBILITY
+
+    PoshPrivilege has been tested on PowerShell V3 and above version.
+
+FEEDBACK
+
+    https://github.com/proxb/PoshPrivilege
