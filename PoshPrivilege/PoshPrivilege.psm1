@@ -2,7 +2,7 @@
 
 #region Module Builder
 $Domain = [AppDomain]::CurrentDomain
-$DynAssembly = New-Object -TypeName System.Reflection.AssemblyName -ArgumentList @('PrivilegeAssembly')
+$DynAssembly = New-Object System.Reflection.AssemblyName('PrivilegeAssembly')
 $AssemblyBuilder = $Domain.DefineDynamicAssembly($DynAssembly, [System.Reflection.Emit.AssemblyBuilderAccess]::Run) # Only run in memory
 $ModuleBuilder = $AssemblyBuilder.DefineDynamicModule('PrivilegeModule', $False)
 #endregion Module Builder

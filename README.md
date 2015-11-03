@@ -1,5 +1,5 @@
 
-PoshPrivilege (0.2.2.0)
+PoshPrivilege (0.3.0.0)
 ============
 [![Build status](https://ci.appveyor.com/api/projects/status/1e8nc4ron54pcu3q?svg=true)](https://ci.appveyor.com/project/proxb/poshprivilege)
 
