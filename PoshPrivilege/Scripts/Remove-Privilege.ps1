@@ -79,25 +79,26 @@
 
         #region LsaAddAccountRights
         ForEach ($Priv in $Privilege) {
-            $UserRights = New-Object LSA_UNICODE_STRING[] -ArgumentList 1
             $PrivilegeName = [privileges]::$Priv
             $_UserRights = New-Object LSA_UNICODE_STRING
             $_UserRights.Buffer = $Priv.ToString()
-            $_UserRights.Length = ($_UserRights.Buffer.length * ([System.Runtime.InteropServices.Marshal]::SizeOf([type][char])))
-            $_UserRights.MaximumLength = ($_UserRights.Length + ([System.Runtime.InteropServices.Marshal]::SizeOf([type][char])))        
+            #SF edts: replaced the two below lines to fix the buffer size
+            $_UserRights.Length = ($_UserRights.Buffer.length * [System.Text.UnicodeEncoding]::CharSize)
+            $_UserRights.MaximumLength = ($_UserRights.Length + [System.Text.UnicodeEncoding]::CharSize)
+            $UserRights = New-Object LSA_UNICODE_STRING[] -ArgumentList 1
             $UserRights[0] = $_UserRights
-            Write-Verbose "Removing Privilege: $($PrivilegeName.ToString())"
+           Write-Verbose "Removing Privilege: $($PrivilegeName.ToString())"
             $NTStatus = [PoShPrivilege]::LsaRemoveAccountRights(
                 $PolicyHandle,
                 $SIDPtr,
-                $True,
+                $false, #SF edit: originally was true which would delete all privs and the account
                 $UserRights,
                 1    
             )
 
             #region winErrorCode
             If ($NTStatus -ne 0) {
-                $Win32ErrorCode = [PoShPrivilege]::LsaNtStatusToWinError($return)
+                $Win32ErrorCode = [PoShPrivilege]::LsaNtStatusToWinError($return) 
                 Write-Warning $(New-Object System.ComponentModel.Win32Exception -ArgumentList $Win32ErrorCode)
                 BREAK
             }
