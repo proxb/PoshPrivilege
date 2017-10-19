@@ -70,6 +70,7 @@ $EnumBuilder = $ModuleBuilder.DefineEnum('Privileges', 'Public', [uint32])
 [void]$EnumBuilder.DefineLiteral('SeDenyRemoteInteractiveLogonRight',[uint32] 0x00000028)
 [void]$EnumBuilder.DefineLiteral('SeTrustedCredManAccessPrivilege',[uint32] 0x00000029)
 [void]$EnumBuilder.DefineLiteral('SeIncreaseWorkingSetPrivilege',[uint32] 0x0000002a)
+[void]$EnumBuilder.DefineLiteral('SeDelegateSessionUserImpersonatePrivilege',[uint32] 0x0000002b)
 [void]$EnumBuilder.CreateType()
 #endregion Privileges
 #region TOKEN_INFORMATION_CLASS
